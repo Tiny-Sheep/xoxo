@@ -1,6 +1,6 @@
 import inquirer from 'inquirer'
 
-import gameReducer, {move} from './game'
+import gameReducer, {move, streak} from './game'
 import {createStore} from 'redux'
 
 const printBoard = () => {
@@ -14,7 +14,7 @@ const printBoard = () => {
 }
 
 const getInput = player => async () => {
-  const {turn} = game.getState()  
+  const {turn} = game.getState()
   if (turn !== player) return
   const ans = await inquirer.prompt([{
     type: 'input',
@@ -23,6 +23,8 @@ const getInput = player => async () => {
   }])
   const [row=0, col=0] = ans.coord.split(/[,\s+]/).map(x => +x)
   game.dispatch(move(turn, [row, col]))
+  const board = game.getState().board
+  streak(board)
 }
 
 // Create the store
