@@ -16,26 +16,34 @@ const rightCross = [[2, 0], [1, 1], [0, 2]]
 const winners = [col1, col2, col3, row1, row2, row3, leftCross, rightCross]
 
 export const streak = (board) => {
-  winners.forEach((str) => {
+  winners.forEach((winCond) => {
 
     const xWin = "XXX"
     const oWin = "OOO"
     let win = ''
 
-    str.forEach((pos) => {
-      const posChar = board.getIn(pos => {
-        console.log('CHAR ', posChar)
-        win += posChar
-      })
+
+    winCond.forEach((pos) => {
+    
+      let posChar = board.getIn(pos) || ''
+      win+= posChar
+      
+
    })
 
     if(win === xWin) {
       console.log('X wins')
+      process.exit()
+
     }else if(win === oWin) {
       console.log('O wins')
-    }else {
-      console.log('no win')
-      win = ''
+      process.exit()
+    }else if(board.hasIn("-")){
+      win += ""
+    }
+    else{
+      console.log("the game is a draw!")
+      process.exit()
     }
 
   })
