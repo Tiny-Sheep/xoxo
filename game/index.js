@@ -1,25 +1,34 @@
 import {Map} from 'immutable'
 import {createStore} from "redux"
+import { get } from 'http';
 
 const defaultBoard = Map()
-let turn = 'X'
+
 const initialState = {
-  board : defaultBoard
+  board : defaultBoard,
+  turn:"X"
 }
 
 const MOVE = 'MOVE';
 
-const makeMove = () => { store.dispatch({type: "MOVE", position, player : turn }) };
+export const move = (player,position) =>  ({type: MOVE, player, position }) ;
 
 
-export default reducer = (state = initialState, action) => {
- switch (action.type){
-  case MOVE :
-    return {board : board.setIn(positon, player)}
-  default :
-    return state
- }
-}
+const gameReducer = (state = initialState, action) => {
+    console.log("what is action",action)
+    console.log("what is state.board", state.board)
+    // console.log("what is get state", getState())
+    switch (action.type){
+     case MOVE :
+      console.log(action.position)
+       return {board : state.board.setIn(action.position, action.player), turn: (state.turn === "X"? "O":"X") }
+     default :
+       return state
+    }
+   }
+
+export default gameReducer
+
 
 
 
